@@ -1,0 +1,2429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Deen Path</title>
+
+<style>
+:root{
+  --bg:#f4f8f5;
+  --card:#ffffff;
+  --text:#17372a;
+  --muted:#6b7c73;
+  --green:#177245;
+  --green2:#0e5834;
+  --gold:#c99b28;
+  --border:#dbe8df;
+  --shadow:0 8px 25px rgba(0,0,0,.07);
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+body.dark{
+  --bg:#101815;
+  --card:#18251f;
+  --text:#eef8f2;
+  --muted:#aebdb5;
+  --border:#2b4036;
+  --shadow:0 8px 25px rgba(0,0,0,.25);
+}
+
+header{
+  background:linear-gradient(135deg,#0e5834,#177245);
+  color:white;
+  padding:18px 5%;
+  position:sticky;
+  top:0;
+  z-index:50;
+  box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
+
+.header{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.logo{
+  font-size:29px;
+  font-weight:bold;
+}
+
+.tagline{
+  font-size:13px;
+  opacity:.9;
+  margin-top:3px;
+}
+
+nav{
+  max-width:1200px;
+  margin:15px auto 0;
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+nav button{
+  border:1px solid rgba(255,255,255,.25);
+  background:rgba(255,255,255,.12);
+  color:white;
+  padding:9px 13px;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+nav button:hover{
+  background:white;
+  color:var(--green2);
+}
+
+main{
+  max-width:1200px;
+  margin:30px auto;
+  padding:0 18px 50px;
+}
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+.hero{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:30px;
+  box-shadow:var(--shadow);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(210px,1fr));
+  gap:18px;
+  margin-top:20px;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.stat{
+  font-size:30px;
+  font-weight:bold;
+  color:var(--green);
+}
+
+.muted{
+  color:var(--muted);
+}
+
+.btn{
+  border:0;
+  padding:11px 16px;
+  border-radius:12px;
+  cursor:pointer;
+  background:var(--green);
+  color:white;
+  font-weight:bold;
+}
+
+.btn:hover{
+  background:var(--green2);
+}
+
+.btn.secondary{
+  background:#e8f2ec;
+  color:var(--green2);
+}
+
+body.dark .btn.secondary{
+  background:#253a30;
+  color:#dff3e7;
+}
+
+.btn.gold{
+  background:var(--gold);
+  color:white;
+}
+
+.controls{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:18px;
+}
+
+.search,
+select{
+  width:100%;
+  padding:13px;
+  border-radius:11px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+}
+
+.search{
+  margin-top:15px;
+}
+
+.surah-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fill,minmax(230px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+
+.surah-card{
+  cursor:pointer;
+  transition:.2s;
+}
+
+.surah-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--green);
+}
+
+.surah-number{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#e8f4ed;
+  color:var(--green2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+body.dark .surah-number{
+  background:#243c31;
+  color:#dff5e7;
+}
+
+.arabic-name{
+  font-family:"Times New Roman",serif;
+  direction:rtl;
+  text-align:right;
+  font-size:27px;
+  margin:8px 0;
+}
+
+.badge{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:20px;
+  background:#edf6f0;
+  color:var(--green2);
+  font-size:12px;
+  margin:3px;
+}
+
+body.dark .badge{
+  background:#263d32;
+  color:#dff4e7;
+}
+
+.ayah-box{
+  margin-top:20px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:28px;
+  box-shadow:var(--shadow);
+}
+
+.ayah-number{
+  color:var(--green);
+  font-weight:bold;
+}
+
+.arabic{
+  font-family:"Times New Roman",serif;
+  direction:rtl;
+  text-align:right;
+  font-size:36px;
+  line-height:2.2;
+  margin:22px 0;
+}
+
+.translation-box{
+  border-left:4px solid var(--green);
+  padding:15px 18px;
+  background:#f1f7f3;
+  border-radius:10px;
+  line-height:1.7;
+  color:var(--text);
+}
+
+body.dark .translation-box{
+  background:#21352c;
+}
+
+.translation-title{
+  font-weight:bold;
+  color:var(--green);
+  margin-bottom:8px;
+}
+
+.listen-box{
+  margin-top:20px;
+  padding:16px;
+  border:1px solid var(--border);
+  border-radius:14px;
+}
+
+audio{
+  width:100%;
+  margin-top:10px;
+}
+
+.progress{
+  height:12px;
+  background:#e3ebe6;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+body.dark .progress{
+  background:#293b33;
+}
+
+.progress-bar{
+  height:100%;
+  width:0;
+  background:var(--green);
+  transition:.3s;
+}
+
+.loading{
+  text-align:center;
+  padding:30px;
+  color:var(--muted);
+}
+
+.error{
+  background:#fff0f0;
+  color:#8b3030;
+  padding:15px;
+  border-radius:12px;
+  margin-top:15px;
+}
+
+body.dark .error{
+  background:#3b2020;
+  color:#ffcaca;
+}
+
+.review-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  padding:15px;
+  border-bottom:1px solid var(--border);
+}
+
+.chat{
+  min-height:180px;
+  max-height:350px;
+  overflow:auto;
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:10px;
+}
+
+.message{
+  padding:10px 14px;
+  margin:8px 0;
+  border-radius:14px;
+  max-width:80%;
+}
+
+.bot{
+  background:#eaf5ee;
+}
+
+.user{
+  background:var(--green);
+  color:white;
+  margin-left:auto;
+}
+
+body.dark .bot{
+  background:#24372e;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  color:var(--muted);
+}
+
+@media(max-width:700px){
+
+  .header{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .arabic{
+    font-size:29px;
+  }
+
+  .hero{
+    padding:20px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="header">
+
+    <div>
+      <div class="logo">🌙 Deen Path</div>
+      <div class="tagline">
+        Learn • Recite • Memorize • Grow
+      </div>
+    </div>
+
+  </div>
+
+  <nav>
+
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('quran')">Qur'an</button>
+    <button onclick="showPage('hifz')">Hifz</button>
+    <button onclick="showPage('revision')">Revision</button>
+    <button onclick="showPage('flashcards')">Flashcards</button>
+    <button onclick="showPage('quiz')">Quiz</button>
+    <button onclick="showPage('stories')">Stories</button>
+    <button onclick="showPage('buddy')">Buddy</button>
+    <button onclick="showPage('settings')">Settings</button>
+
+  </nav>
+
+</header>
+
+
+<main>
+
+
+<!-- ================= HOME ================= -->
+
+<section id="home" class="page active">
+
+  <div class="hero">
+
+    <h1>Assalamu Alaikum 🌿</h1>
+
+    <p>
+      Welcome to <strong>Deen Path</strong> —
+      your simple companion for Qur'an learning,
+      Hifz and revision.
+    </p>
+
+    <div class="controls">
+
+      <button
+        class="btn"
+        onclick="showPage('quran')">
+
+        📖 Open Qur'an
+
+      </button>
+
+      <button
+        class="btn secondary"
+        onclick="showPage('hifz')">
+
+        🧠 Start Hifz
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <div class="grid">
+
+    <div class="card">
+      <div class="muted">🔥 Streak</div>
+      <div class="stat" id="streakStat">0</div>
+      <div class="muted">days</div>
+    </div>
+
+    <div class="card">
+      <div class="muted">⭐ Points</div>
+      <div class="stat" id="pointsStat">0</div>
+    </div>
+
+    <div class="card">
+      <div class="muted">✅ Memorized</div>
+      <div class="stat" id="knownStat">0</div>
+      <div class="muted">ayahs</div>
+    </div>
+
+    <div class="card">
+      <div class="muted">🔄 Revision</div>
+      <div class="stat" id="reviewStat">0</div>
+      <div class="muted">ayahs</div>
+    </div>
+
+  </div>
+
+
+  <div class="card" style="margin-top:20px">
+
+    <h3>📊 Qur'an Progress</h3>
+
+    <div class="progress">
+      <div
+        class="progress-bar"
+        id="overallProgress">
+      </div>
+    </div>
+
+    <p
+      class="muted"
+      id="overallText">
+
+      Loading Qur'an information...
+
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- ================= QURAN ================= -->
+
+<section id="quran" class="page">
+
+  <div class="hero">
+
+    <h1>📖 Qur'an Library</h1>
+
+    <p class="muted">
+      Explore all 114 Surahs.
+    </p>
+
+    <input
+      id="surahSearch"
+      class="search"
+      placeholder="🔎 Search Surah..."
+      oninput="renderSurahs()"
+    >
+
+  </div>
+
+  <div
+    id="surahLoading"
+    class="loading">
+
+    Loading all Surahs...
+
+  </div>
+
+  <div id="surahError"></div>
+
+  <div
+    id="surahGrid"
+    class="surah-grid">
+  </div>
+
+</section>
+
+
+<!-- ================= HIFZ ================= -->
+
+<section id="hifz" class="page">
+
+  <div class="hero">
+
+    <h1>🧠 Hifz Room</h1>
+
+    <p class="muted">
+      Listen to an ayah, read it,
+      check its translation and practise your Hifz.
+    </p>
+
+    <label>Choose Surah</label>
+
+    <select
+      id="hifzSurah"
+      onchange="changeHifzSurah()">
+    </select>
+
+    <br><br>
+
+    <label>Choose Ayah</label>
+
+    <select
+      id="hifzAyah"
+      onchange="changeHifzAyah()">
+    </select>
+
+  </div>
+
+
+  <div
+    id="hifzLoading"
+    class="loading">
+
+    Choose a Surah to begin.
+
+  </div>
+
+  <div id="hifzContent"></div>
+
+</section>
+
+
+<!-- ================= REVISION ================= -->
+
+<section id="revision" class="page">
+
+  <div class="hero">
+
+    <h1>🔄 Revision Room</h1>
+
+    <p class="muted">
+      Your ayahs marked for practice appear here.
+    </p>
+
+  </div>
+
+  <div
+    class="card"
+    style="margin-top:20px">
+
+    <div id="revisionList"></div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= FLASHCARDS ================= -->
+
+<section id="flashcards" class="page">
+
+  <div class="hero">
+
+    <h1>🃏 Flashcards</h1>
+
+    <p class="muted">
+      Learn important Islamic facts.
+    </p>
+
+  </div>
+
+  <div
+    class="card"
+    style="margin-top:20px;text-align:center">
+
+    <h2 id="flashQuestion">
+      Click Next to begin.
+    </h2>
+
+    <p id="flashAnswer"
+       style="display:none">
+    </p>
+
+    <div
+      class="controls"
+      style="justify-content:center">
+
+      <button
+        class="btn"
+        onclick="showFlashAnswer()">
+
+        👀 Show Answer
+
+      </button>
+
+      <button
+        class="btn secondary"
+        onclick="newFlashcard()">
+
+        🔄 Next
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= QUIZ ================= -->
+
+<section id="quiz" class="page">
+
+  <div class="hero">
+
+    <h1>🧩 Islamic Quiz</h1>
+
+    <p class="muted">
+      Test your Islamic knowledge.
+    </p>
+
+  </div>
+
+  <div
+    class="card"
+    style="margin-top:20px">
+
+    <h2 id="quizQuestion">
+      Loading question...
+    </h2>
+
+    <div id="quizOptions"></div>
+
+    <p id="quizResult"></p>
+
+    <button
+      class="btn"
+      onclick="newQuizQuestion()">
+
+      Next Question
+
+    </button>
+
+  </div>
+
+</section>
+
+
+<!-- ================= STORIES ================= -->
+
+<section id="stories" class="page">
+
+  <div class="hero">
+
+    <h1>📚 Islamic Stories</h1>
+
+    <p class="muted">
+      Short stories and lessons.
+    </p>
+
+  </div>
+
+  <div class="grid">
+
+    <div class="card">
+
+      <h3>🌿 Prophet Nuh ﷺ</h3>
+
+      <p>
+        Prophet Nuh ﷺ showed patience
+        while calling his people towards Allah.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <h3>🐋 Prophet Yunus ﷺ</h3>
+
+      <p>
+        Prophet Yunus ﷺ turned to Allah
+        in a time of difficulty.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <h3>🔥 Prophet Ibrahim ﷺ</h3>
+
+      <p>
+        Prophet Ibrahim ﷺ demonstrated
+        complete trust in Allah.
+      </p>
+
+    </div>
+
+    <div class="card">
+
+      <h3>🌙 Prophet Muhammad ﷺ</h3>
+
+      <p>
+        His life teaches mercy,
+        patience, honesty and kindness.
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= BUDDY ================= -->
+
+<section id="buddy" class="page">
+
+  <div class="hero">
+
+    <h1>🤖 Deen Buddy</h1>
+
+    <p class="muted">
+      Ask a simple Islamic learning question.
+    </p>
+
+    <div
+      id="chatBox"
+      class="chat">
+
+      <div class="message bot">
+
+        Assalamu Alaikum! 🌙
+        How can I help you learn today?
+
+      </div>
+
+    </div>
+
+    <div class="controls">
+
+      <input
+        id="buddyInput"
+        class="search"
+        style="margin:0"
+        placeholder="Ask something..."
+      >
+
+      <button
+        class="btn"
+        onclick="askBuddy()">
+
+        Send
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= SETTINGS ================= -->
+
+<section id="settings" class="page">
+
+  <div class="hero">
+
+    <h1>⚙️ Settings</h1>
+
+    <div class="controls">
+
+      <button
+        class="btn"
+        onclick="toggleDarkMode()">
+
+        🌙 Dark Mode
+
+      </button>
+
+      <button
+        class="btn secondary"
+        onclick="resetProgress()">
+
+        🗑 Reset Progress
+
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+
+<footer>
+
+  🌙 <strong>Deen Path</strong>
+
+  <br>
+
+  <small>
+    Learn • Recite • Memorize • Grow
+  </small>
+
+</footer>
+
+
+<script>
+
+/* =========================================
+   DEEN PATH
+========================================= */
+
+const API =
+  "https://api.alquran.cloud/v1";
+
+let surahs = [];
+
+let loadedSurahs =
+  new Map();
+
+let currentSurah = 1;
+
+let currentAyah = 1;
+
+
+/* =========================================
+   SAVED DATA
+========================================= */
+
+let state =
+  JSON.parse(
+    localStorage.getItem("deenPathState")
+    || "{}"
+  );
+
+if(!state.points)
+  state.points = 0;
+
+if(!state.streak)
+  state.streak = 0;
+
+if(!state.progress)
+  state.progress = {};
+
+if(!state.dark)
+  state.dark = false;
+
+
+/* =========================================
+   SAVE
+========================================= */
+
+function saveState(){
+
+  localStorage.setItem(
+    "deenPathState",
+    JSON.stringify(state)
+  );
+
+  updateDashboard();
+}
+
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+function showPage(id){
+
+  document
+    .querySelectorAll(".page")
+    .forEach(page =>
+      page.classList.remove("active")
+    );
+
+  document
+    .getElementById(id)
+    .classList.add("active");
+
+  if(id === "revision")
+    renderRevision();
+
+  if(id === "flashcards")
+    newFlashcard();
+
+  if(id === "quiz")
+    newQuizQuestion();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+}
+
+
+/* =========================================
+   API REQUEST
+========================================= */
+
+async function fetchJSON(url){
+
+  const response =
+    await fetch(url);
+
+  if(!response.ok)
+    throw new Error("API error");
+
+  const json =
+    await response.json();
+
+  if(json.code !== 200)
+    throw new Error("API error");
+
+  return json.data;
+}
+
+
+/* =========================================
+   LOAD 114 SURAHS
+========================================= */
+
+async function loadSurahList(){
+
+  try{
+
+    surahs =
+      await fetchJSON(
+        `${API}/surah`
+      );
+
+    document
+      .getElementById("surahLoading")
+      .style.display = "none";
+
+    renderSurahs();
+
+    fillHifzSurah();
+
+    updateDashboard();
+
+  }catch(error){
+
+    document
+      .getElementById("surahLoading")
+      .innerHTML = `
+        <div class="error">
+          ❌ Could not load the Qur'an.
+          Please check your internet connection.
+        </div>
+      `;
+
+  }
+
+}
+
+
+/* =========================================
+   SURAH SEARCH
+========================================= */
+
+function renderSurahs(){
+
+  const grid =
+    document.getElementById(
+      "surahGrid"
+    );
+
+  const search =
+    document.getElementById(
+      "surahSearch"
+    ).value
+     .toLowerCase()
+     .trim();
+
+  grid.innerHTML = "";
+
+  const filtered =
+    surahs.filter(surah =>
+
+      String(surah.number)
+        .includes(search)
+
+      ||
+
+      surah.englishName
+        .toLowerCase()
+        .includes(search)
+
+      ||
+
+      surah.name
+        .toLowerCase()
+        .includes(search)
+
+      ||
+
+      surah.englishNameTranslation
+        .toLowerCase()
+        .includes(search)
+
+    );
+
+
+  filtered.forEach(surah => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "card surah-card";
+
+    card.onclick = () => {
+
+      currentSurah =
+        surah.number;
+
+      currentAyah = 1;
+
+      fillHifzSurah();
+
+      document
+        .getElementById("hifzSurah")
+        .value =
+          currentSurah;
+
+      changeHifzSurah();
+
+      showPage("hifz");
+
+    };
+
+
+    card.innerHTML = `
+
+      <div class="surah-number">
+        ${surah.number}
+      </div>
+
+      <h3>
+        ${surah.englishName}
+      </h3>
+
+      <div class="arabic-name">
+        ${surah.name}
+      </div>
+
+      <p class="muted">
+        ${surah.englishNameTranslation}
+      </p>
+
+      <span class="badge">
+        ${surah.numberOfAyahs} Ayahs
+      </span>
+
+      <span class="badge">
+        ${surah.revelationType}
+      </span>
+
+    `;
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================================
+   LOAD SURAH
+========================================= */
+
+async function loadSurah(id){
+
+  if(loadedSurahs.has(id))
+    return loadedSurahs.get(id);
+
+
+  const arabicPromise =
+    fetchJSON(
+      `${API}/surah/${id}/quran-uthmani`
+    );
+
+
+  const translationPromise =
+    fetchJSON(
+      `${API}/surah/${id}/en.sahih`
+    );
+
+
+  const audioPromise =
+    fetchJSON(
+      `${API}/surah/${id}/ar.alafasy`
+    );
+
+
+  const [
+    arabic,
+    translation,
+    audio
+  ] =
+    await Promise.all([
+      arabicPromise,
+      translationPromise,
+      audioPromise
+    ]);
+
+
+  const ayahs =
+    arabic.ayahs.map(
+      (ayah,index) => {
+
+        return {
+
+          numberInSurah:
+            ayah.numberInSurah,
+
+          arabic:
+            ayah.text,
+
+          translation:
+            translation.ayahs[index]
+              ? translation.ayahs[index].text
+              : "",
+
+          audio:
+            audio.ayahs[index]
+              ? audio.ayahs[index].audio
+              : ""
+
+        };
+
+      }
+    );
+
+
+  const result = {
+
+    id:id,
+
+    name:
+      surahs.find(
+        s => s.number === id
+      )?.englishName || "",
+
+    arabicName:
+      surahs.find(
+        s => s.number === id
+      )?.name || "",
+
+    ayahs:ayahs
+
+  };
+
+
+  loadedSurahs.set(
+    id,
+    result
+  );
+
+  return result;
+
+}
+
+
+/* =========================================
+   HIFZ SURAH DROPDOWN
+========================================= */
+
+function fillHifzSurah(){
+
+  const select =
+    document.getElementById(
+      "hifzSurah"
+    );
+
+  if(!select || !surahs.length)
+    return;
+
+  select.innerHTML = "";
+
+  surahs.forEach(surah => {
+
+    const option =
+      document.createElement("option");
+
+    option.value =
+      surah.number;
+
+    option.textContent =
+      `${surah.number}. ${surah.englishName}`;
+
+    select.appendChild(option);
+
+  });
+
+  select.value =
+    currentSurah;
+
+  fillAyahSelect();
+
+}
+
+
+/* =========================================
+   CHANGE SURAH
+========================================= */
+
+async function changeHifzSurah(){
+
+  currentSurah =
+    Number(
+      document.getElementById(
+        "hifzSurah"
+      ).value
+    );
+
+  currentAyah = 1;
+
+  await fillAyahSelect();
+
+  renderCurrentAyah();
+
+}
+
+
+/* =========================================
+   AYAH DROPDOWN
+========================================= */
+
+async function fillAyahSelect(){
+
+  const select =
+    document.getElementById(
+      "hifzAyah"
+    );
+
+  if(!select)
+    return;
+
+  select.innerHTML = "";
+
+  const meta =
+    surahs.find(
+      s => s.number === currentSurah
+    );
+
+  if(!meta)
+    return;
+
+  for(
+    let i=1;
+    i<=meta.numberOfAyahs;
+    i++
+  ){
+
+    const option =
+      document.createElement("option");
+
+    option.value = i;
+
+    option.textContent =
+      `Ayah ${i}`;
+
+    select.appendChild(option);
+
+  }
+
+  select.value =
+    currentAyah;
+
+}
+
+
+/* =========================================
+   CHANGE AYAH
+========================================= */
+
+function changeHifzAyah(){
+
+  currentAyah =
+    Number(
+      document.getElementById(
+        "hifzAyah"
+      ).value
+    );
+
+  renderCurrentAyah();
+
+}
+
+
+/* =========================================
+   RENDER AYAH
+========================================= */
+
+async function renderCurrentAyah(){
+
+  const loading =
+    document.getElementById(
+      "hifzLoading"
+    );
+
+  const content =
+    document.getElementById(
+      "hifzContent"
+    );
+
+  loading.style.display =
+    "block";
+
+  loading.innerHTML =
+    "📖 Loading ayah...";
+
+  content.innerHTML = "";
+
+
+  try{
+
+    const surah =
+      await loadSurah(
+        currentSurah
+      );
+
+    const ayah =
+      surah.ayahs[
+        currentAyah - 1
+      ];
+
+
+    if(!ayah)
+      return;
+
+
+    loading.style.display =
+      "none";
+
+
+    const key =
+      `${currentSurah}-${currentAyah}`;
+
+    const status =
+      state.progress[key]
+      || "new";
+
+
+    const known =
+      status === "known";
+
+    const review =
+      status === "review";
+
+
+    content.innerHTML = `
+
+      <div class="ayah-box">
+
+        <div class="ayah-number">
+
+          ${surah.name}
+          • Ayah ${ayah.numberInSurah}
+
+        </div>
+
+
+        <div class="arabic">
+
+          ${ayah.arabic}
+
+        </div>
+
+
+        <!-- TRANSLATION -->
+
+        <div
+          id="translationBox"
+          class="translation-box">
+
+          <div class="translation-title">
+            🌍 English Translation
+          </div>
+
+          ${ayah.translation}
+
+        </div>
+
+
+        <!-- AUDIO -->
+
+        <div class="listen-box">
+
+          <strong>
+            🎧 Listen to the Ayah
+          </strong>
+
+          <p class="muted">
+            Press play whenever you want
+            to hear the recitation.
+          </p>
+
+          ${
+            ayah.audio
+            ?
+
+            `<audio
+               controls
+               preload="none"
+               src="${ayah.audio}">
+             </audio>`
+
+            :
+
+            `<p class="muted">
+               Audio unavailable.
+             </p>`
+          }
+
+        </div>
+
+
+        <!-- ACTIONS -->
+
+        <div class="controls">
+
+          <button
+            class="btn"
+            onclick="markKnown()">
+
+            ${
+              known
+              ? "✅ Memorized"
+              : "✅ Mark Memorized"
+            }
+
+          </button>
+
+
+          <button
+            class="btn gold"
+            onclick="markReview()">
+
+            ${
+              review
+              ? "🔄 Needs Practice"
+              : "🔄 Mark for Revision"
+            }
+
+          </button>
+
+
+          <button
+            class="btn secondary"
+            onclick="toggleTranslation()">
+
+            🌍 Show / Hide Translation
+
+          </button>
+
+        </div>
+
+
+        <!-- PROGRESS -->
+
+        <div style="margin-top:25px">
+
+          <div class="progress">
+
+            <div
+              class="progress-bar"
+              style="
+                width:
+                ${
+                  currentAyah /
+                  surah.ayahs.length *
+                  100
+                }%
+              ">
+            </div>
+
+          </div>
+
+          <p class="muted">
+
+            Ayah
+            ${currentAyah}
+            of
+            ${surah.ayahs.length}
+
+          </p>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <div class="controls">
+
+          <button
+            class="btn secondary"
+            onclick="previousAyah()">
+
+            ← Previous
+
+          </button>
+
+
+          <button
+            class="btn"
+            onclick="nextAyah()">
+
+            Next →
+
+          </button>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    loading.innerHTML = `
+
+      <div class="error">
+
+        ❌ Unable to load this ayah.
+
+        <br><br>
+
+        Please check your internet connection
+        and try again.
+
+      </div>
+
+    `;
+
+  }
+
+}
+
+
+/* =========================================
+   TRANSLATION SHOW/HIDE
+========================================= */
+
+function toggleTranslation(){
+
+  const box =
+    document.getElementById(
+      "translationBox"
+    );
+
+  if(!box)
+    return;
+
+  if(
+    box.style.display === "none"
+  ){
+
+    box.style.display =
+      "block";
+
+  }else{
+
+    box.style.display =
+      "none";
+
+  }
+
+}
+
+
+/* =========================================
+   MARK MEMORIZED
+========================================= */
+
+function markKnown(){
+
+  const key =
+    `${currentSurah}-${currentAyah}`;
+
+  if(
+    state.progress[key]
+    !== "known"
+  ){
+
+    state.points += 10;
+
+  }
+
+  state.progress[key] =
+    "known";
+
+  saveState();
+
+  renderCurrentAyah();
+
+}
+
+
+/* =========================================
+   MARK REVISION
+========================================= */
+
+function markReview(){
+
+  const key =
+    `${currentSurah}-${currentAyah}`;
+
+  state.progress[key] =
+    "review";
+
+  state.points += 2;
+
+  saveState();
+
+  renderCurrentAyah();
+
+}
+
+
+/* =========================================
+   NEXT
+========================================= */
+
+async function nextAyah(){
+
+  const meta =
+    surahs.find(
+      s => s.number === currentSurah
+    );
+
+  if(!meta)
+    return;
+
+
+  if(
+    currentAyah <
+    meta.numberOfAyahs
+  ){
+
+    currentAyah++;
+
+  }else if(
+    currentSurah < 114
+  ){
+
+    currentSurah++;
+
+    currentAyah = 1;
+
+    document
+      .getElementById("hifzSurah")
+      .value =
+        currentSurah;
+
+    await fillAyahSelect();
+
+  }
+
+
+  document
+    .getElementById("hifzAyah")
+    .value =
+      currentAyah;
+
+  renderCurrentAyah();
+
+}
+
+
+/* =========================================
+   PREVIOUS
+========================================= */
+
+async function previousAyah(){
+
+  if(currentAyah > 1){
+
+    currentAyah--;
+
+  }else if(currentSurah > 1){
+
+    currentSurah--;
+
+    const meta =
+      surahs.find(
+        s => s.number === currentSurah
+      );
+
+    currentAyah =
+      meta
+      ? meta.numberOfAyahs
+      : 1;
+
+    document
+      .getElementById("hifzSurah")
+      .value =
+        currentSurah;
+
+    await fillAyahSelect();
+
+  }
+
+
+  document
+    .getElementById("hifzAyah")
+    .value =
+      currentAyah;
+
+  renderCurrentAyah();
+
+}
+
+
+/* =========================================
+   REVISION
+========================================= */
+
+function renderRevision(){
+
+  const list =
+    document.getElementById(
+      "revisionList"
+    );
+
+  const reviews =
+    Object.keys(state.progress)
+      .filter(
+        key =>
+          state.progress[key]
+          === "review"
+      );
+
+
+  if(!reviews.length){
+
+    list.innerHTML = `
+
+      <div style="
+        text-align:center;
+        padding:30px">
+
+        <h3>
+          🌿 No revision ayahs yet
+        </h3>
+
+        <p class="muted">
+
+          Mark an ayah as
+          "Mark for Revision"
+          and it will appear here.
+
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  list.innerHTML = "";
+
+
+  reviews.forEach(key => {
+
+    const parts =
+      key.split("-");
+
+    const surahNumber =
+      Number(parts[0]);
+
+    const ayahNumber =
+      Number(parts[1]);
+
+    const meta =
+      surahs.find(
+        s => s.number === surahNumber
+      );
+
+
+    const item =
+      document.createElement("div");
+
+    item.className =
+      "review-item";
+
+
+    item.innerHTML = `
+
+      <div>
+
+        <strong>
+          ${
+            meta
+            ? meta.englishName
+            : "Surah " + surahNumber
+          }
+        </strong>
+
+        <div class="muted">
+          Ayah ${ayahNumber}
+        </div>
+
+      </div>
+
+      <button class="btn">
+        Practise
+      </button>
+
+    `;
+
+
+    item
+      .querySelector("button")
+      .onclick = () => {
+
+        currentSurah =
+          surahNumber;
+
+        currentAyah =
+          ayahNumber;
+
+        document
+          .getElementById("hifzSurah")
+          .value =
+            currentSurah;
+
+        fillAyahSelect();
+
+        document
+          .getElementById("hifzAyah")
+          .value =
+            currentAyah;
+
+        renderCurrentAyah();
+
+        showPage("hifz");
+
+      };
+
+
+    list.appendChild(item);
+
+  });
+
+}
+
+
+/* =========================================
+   DASHBOARD
+========================================= */
+
+function getKnownCount(){
+
+  return Object
+    .values(state.progress)
+    .filter(
+      value => value === "known"
+    )
+    .length;
+
+}
+
+
+function getReviewCount(){
+
+  return Object
+    .values(state.progress)
+    .filter(
+      value => value === "review"
+    )
+    .length;
+
+}
+
+
+function getTotalAyahs(){
+
+  return surahs.reduce(
+    (total,surah) =>
+      total +
+      Number(surah.numberOfAyahs || 0),
+    0
+  );
+
+}
+
+
+function updateDashboard(){
+
+  document
+    .getElementById("pointsStat")
+    .textContent =
+      state.points;
+
+  document
+    .getElementById("streakStat")
+    .textContent =
+      state.streak;
+
+  document
+    .getElementById("knownStat")
+    .textContent =
+      getKnownCount();
+
+  document
+    .getElementById("reviewStat")
+    .textContent =
+      getReviewCount();
+
+
+  const total =
+    getTotalAyahs();
+
+  const known =
+    getKnownCount();
+
+
+  if(total){
+
+    const percent =
+      Math.min(
+        100,
+        known / total * 100
+      );
+
+
+    document
+      .getElementById("overallProgress")
+      .style.width =
+        percent + "%";
+
+
+    document
+      .getElementById("overallText")
+      .textContent =
+        `${known} of ${total} ayahs memorized • ${percent.toFixed(2)}%`;
+
+  }
+
+}
+
+
+/* =========================================
+   FLASHCARDS
+========================================= */
+
+const flashcards = [
+
+  {
+    q:"How many Surahs are in the Qur'an?",
+    a:"114 Surahs."
+  },
+
+  {
+    q:"How many Juz are in the Qur'an?",
+    a:"30 Juz."
+  },
+
+  {
+    q:"What is the first Surah?",
+    a:"Surah Al-Fatihah."
+  },
+
+  {
+    q:"What is the longest Surah?",
+    a:"Surah Al-Baqarah."
+  },
+
+  {
+    q:"What is the shortest Surah?",
+    a:"Surah Al-Kawthar."
+  },
+
+  {
+    q:"Which Surah is commonly known as Umm al-Kitab?",
+    a:"Surah Al-Fatihah."
+  }
+
+];
+
+let currentFlashcard;
+
+
+function newFlashcard(){
+
+  currentFlashcard =
+    flashcards[
+      Math.floor(
+        Math.random()
+        * flashcards.length
+      )
+    ];
+
+
+  document
+    .getElementById("flashQuestion")
+    .textContent =
+      currentFlashcard.q;
+
+
+  document
+    .getElementById("flashAnswer")
+    .textContent =
+      currentFlashcard.a;
+
+
+  document
+    .getElementById("flashAnswer")
+    .style.display =
+      "none";
+
+}
+
+
+function showFlashAnswer(){
+
+  document
+    .getElementById("flashAnswer")
+    .style.display =
+      "block";
+
+}
+
+
+/* =========================================
+   QUIZ
+========================================= */
+
+const quizQuestions = [
+
+  {
+    q:"How many Surahs are in the Qur'an?",
+    options:[
+      "100",
+      "114",
+      "120",
+      "30"
+    ],
+    answer:"114"
+  },
+
+  {
+    q:"Which Surah comes first?",
+    options:[
+      "Al-Baqarah",
+      "Al-Fatihah",
+      "Al-Ikhlas",
+      "An-Nas"
+    ],
+    answer:"Al-Fatihah"
+  },
+
+  {
+    q:"How many Juz are there?",
+    options:[
+      "20",
+      "25",
+      "30",
+      "40"
+    ],
+    answer:"30"
+  }
+
+];
+
+let currentQuiz;
+
+
+function newQuizQuestion(){
+
+  currentQuiz =
+    quizQuestions[
+      Math.floor(
+        Math.random()
+        * quizQuestions.length
+      )
+    ];
+
+
+  document
+    .getElementById("quizQuestion")
+    .textContent =
+      currentQuiz.q;
+
+
+  document
+    .getElementById("quizResult")
+    .textContent = "";
+
+
+  const box =
+    document.getElementById(
+      "quizOptions"
+    );
+
+  box.innerHTML = "";
+
+
+  currentQuiz.options
+    .forEach(option => {
+
+      const button =
+        document.createElement("button");
+
+      button.className =
+        "btn secondary";
+
+      button.style.width =
+        "100%";
+
+      button.style.margin =
+        "7px 0";
+
+      button.textContent =
+        option;
+
+
+      button.onclick = () => {
+
+        if(
+          option ===
+          currentQuiz.answer
+        ){
+
+          document
+            .getElementById(
+              "quizResult"
+            )
+            .textContent =
+              "✅ Correct! MashaAllah!";
+
+          state.points += 5;
+
+        }else{
+
+          document
+            .getElementById(
+              "quizResult"
+            )
+            .textContent =
+              `❌ Correct answer: ${currentQuiz.answer}`;
+
+        }
+
+        saveState();
+
+      };
+
+
+      box.appendChild(button);
+
+    });
+
+}
+
+
+/* =========================================
+   BUDDY
+========================================= */
+
+function askBuddy(){
+
+  const input =
+    document.getElementById(
+      "buddyInput"
+    );
+
+  const question =
+    input.value.trim();
+
+  if(!question)
+    return;
+
+
+  const chat =
+    document.getElementById(
+      "chatBox"
+    );
+
+
+  const user =
+    document.createElement("div");
+
+  user.className =
+    "message user";
+
+  user.textContent =
+    question;
+
+  chat.appendChild(user);
+
+
+  let answer =
+    "I can help you learn Qur'an, Hifz and basic Islamic knowledge. 🌙";
+
+
+  const q =
+    question.toLowerCase();
+
+
+  if(
+    q.includes("how many")
+    &&
+    q.includes("surah")
+  ){
+
+    answer =
+      "There are 114 Surahs in the Qur'an.";
+
+  }
+
+  else if(
+    q.includes("juz")
+  ){
+
+    answer =
+      "There are 30 Juz in the Qur'an.";
+
+  }
+
+  else if(
+    q.includes("hifz")
+    ||
+    q.includes("memorize")
+  ){
+
+    answer =
+      "Try memorizing a small number of ayahs at a time, listen carefully, recite without looking, and revise regularly.";
+
+  }
+
+  else if(
+    q.includes("fatihah")
+  ){
+
+    answer =
+      "Al-Fatihah is the first Surah of the Qur'an.";
+
+  }
+
+
+  setTimeout(() => {
+
+    const bot =
+      document.createElement("div");
+
+    bot.className =
+      "message bot";
+
+    bot.textContent =
+      answer;
+
+    chat.appendChild(bot);
+
+    chat.scrollTop =
+      chat.scrollHeight;
+
+  },300);
+
+
+  input.value = "";
+
+}
+
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+function toggleDarkMode(){
+
+  state.dark =
+    !state.dark;
+
+  document.body
+    .classList.toggle(
+      "dark",
+      state.dark
+    );
+
+  saveState();
+
+}
+
+
+/* =========================================
+   RESET
+========================================= */
+
+function resetProgress(){
+
+  if(
+    !confirm(
+      "Reset all Hifz progress?"
+    )
+  )
+    return;
+
+
+  state.progress = {};
+
+  state.points = 0;
+
+  saveState();
+
+  renderRevision();
+
+  alert(
+    "Progress reset."
+  );
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    document.body
+      .classList.toggle(
+        "dark",
+        state.dark
+      );
+
+    loadSurahList();
+
+    updateDashboard();
+
+  }
+);
+
+</script>
+
+</body>
+</html>
